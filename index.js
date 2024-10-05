@@ -1,24 +1,14 @@
-const http = require('http');
 const fs = require('fs');
+const express = require('express')
 
 const index = fs.readFileSync("./index.html", "utf8");
 const jsonData = fs.readFileSync("./data.json", "utf8");
 
-const server = http.createServer((req, res) => {
-    switch (req.url) {
-        case "/":
-            res.setHeader("content-type", "text/html");
-            res.end(index);
-            break;
-        case "/users":
-            res.setHeader("content-type", "application/json")
-            res.end(jsonData)
-            break;
-        default:
-            res.writeHeader(404)
-            res.end("page not found");
-    }
-
+const app = express();
+app.get("/:id", (req, res) => {
+    const id = req.params.id
+    console.log(id)
+    res.send("<h1>hell from server</h1>")
 })
 
-server.listen(8000, () => { console.log("server listening on port 8000") })
+app.listen(8000, () => { console.log("server listening on port 8000") })
